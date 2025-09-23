@@ -1,4 +1,6 @@
+import { UserProvider } from "@/contextData/ContextData";
 import "./globals.css";
+import ProviderSetup from "@/store/ProviderSetup";
 
 
 
@@ -11,7 +13,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {children}
+        <UserProvider>
+          <ProviderSetup>
+            {children}
+          </ProviderSetup>
+        </UserProvider>
       </body>
     </html>
   );
