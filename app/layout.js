@@ -1,6 +1,7 @@
 import { UserProvider } from "@/contextData/ContextData";
 import "./globals.css";
 import ProviderSetup from "@/store/ProviderSetup";
+import Header from "@/components/Header";
 
 
 
@@ -10,11 +11,19 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const randomNumber = Math.random()
+  console.log(randomNumber);
+
+
+  if (randomNumber > 0.5) {
+    throw new Error("globel root error")
+  }
   return (
     <html lang="en">
       <body>
         <UserProvider>
           <ProviderSetup>
+            <Header />
             {children}
           </ProviderSetup>
         </UserProvider>

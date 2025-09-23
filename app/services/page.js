@@ -1,4 +1,4 @@
-import Header from '@/components/Header'
+// import Header from '@/components/Header'
 import ServiceItem from '@/components/ServiceItem'
 import ServicesList from '@/components/ServiesList'
 import React from 'react'
@@ -13,7 +13,7 @@ function ServicesPage() {
   ];
   return (
     <div className="min-h-screen p-8">
-      <Header />
+      {/* <Header /> */}
       <div className="flex flex-col gap-4 justify-center items-center h-screen">
         <h1 className='text-3xl'>This is Services Page</h1>
 
