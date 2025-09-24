@@ -4,7 +4,7 @@ import todos from "@/todos.json"
 export async function GET(_, { params }) {
   const { id } = await params
   const todo = todos.find(todo => todo.id == id)
-  
+
 
   if (!todo) {
     return Response.json({ error: "todo not found" }, {
@@ -60,5 +60,20 @@ export async function PUT(request, { params }) {
   // update todos on data
   todos[index] = todo
   writeFile("todos.json", JSON.stringify(todos, null, 2))
-  return Response.json(todo)
+  return Response.json(todo, {status: 201})
+}
+
+
+export async function DELETE(_, {params}) {
+  const {id} = await params
+
+  const index = todos.findIndex((todo) => todo.id == id)
+
+  if(index === -1){
+    return Response.json({error: "Todo not found"}, {status: 404})
+  }
+
+  todos.splice(index, 1)
+  writeFile("todos.json", JSON.stringify(todos, null, 2))
+  return Response.json({id})
 }
