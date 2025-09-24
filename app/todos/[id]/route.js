@@ -20,7 +20,7 @@ export async function PATCH(request, { params }) {
   const body = await request.json()
   const { id } = await params
 
-   // if user want to change id then sent a error
+  // if user want to change id then sent a error
   if(body.id){
     return Response.json({error: "id changing is not allow"}, {status: 403})
   }
