@@ -11,13 +11,13 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const randomNumber = Math.random()
-  console.log(randomNumber);
+  // const randomNumber = Math.random()
+  // console.log(randomNumber);
 
 
-  if (randomNumber > 0.5) {
-    throw new Error("globel root error")
-  }
+  // if (randomNumber > 0.5) {
+  //   throw new Error("globel root error")
+  // }
   return (
     <html lang="en">
       <body>

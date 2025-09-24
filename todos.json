@@ -1,0 +1,5 @@
+[
+  { "id": 1, "text": "Learn Next.js 15", "completed": true },
+  { "id": 2, "text": "Master Next.js Backend", "completed": false },
+  { "id": 3, "text": "Learn MongoDB", "completed": false }
+]
