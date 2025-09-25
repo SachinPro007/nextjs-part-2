@@ -1,14 +1,16 @@
 
 import { writeFile } from "node:fs/promises"
 import todosData from "@/todos.json";
+import { db } from "@/config/db";
 
 
-export function GET() {
-  // console.log("Running GET route Handler.");
+export async function GET() {
+  console.log("Running GET route Handler.");
+  const [todos] = await db.execute(`SELECT * FROM todos_data;`);
 
-  return Response.json(todosData)
+  return Response.json(todos)
 
-  // return new Response(JSON.stringify(todosData), {
+  // return new Response(JSON.stringify(todos), {
   //   headers: {
   //     'Content-Type': 'application/json',
   //   },
@@ -18,13 +20,15 @@ export function GET() {
 
 
 export async function POST(request) {
-  const todo = await request.json()
+  const todo = await request.json()  
+
   const newTodo = {
-    // id: todosData.length + 1,
     id: crypto.randomUUID(),
     text: todo.text,
     completed: false
   }
+  await db.execute(`INSERT INTO todos_data (id, text, completed) VALUES (?, ?, ?);`, [newTodo.id, newTodo.text, newTodo.completed]);
+  
   todosData.push(newTodo)
   await writeFile("todos.json", JSON.stringify(todosData, null, 2))
   return Response.json(newTodo)

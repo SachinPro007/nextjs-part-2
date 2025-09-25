@@ -1,9 +1,13 @@
 import { writeFile } from "node:fs/promises"
 import todos from "@/todos.json"
+import { db } from "@/config/db"
 
 export async function GET(_, { params }) {
   const { id } = await params
-  const todo = todos.find(todo => todo.id == id)
+  // const todo = todos.find(todo => todo.id == id)
+  const [[todo]] = await db.execute(`SELECT * FROM todos_data WHERE id = ?;`, [id])
+  console.log(todo);
+  
 
 
   if (!todo) {
@@ -25,6 +29,17 @@ export async function PATCH(request, { params }) {
     return Response.json({error: "id changing is not allow"}, {status: 403})
   }
 
+
+  // update value in database 
+  if(body.text){
+    await db.execute(`UPDATE todos_data SET text = '${body.text}' WHERE id = ?;`, [id])
+  }else{
+    await db.execute(`UPDATE todos_data SET completed = '${body.completed ? 1 : 0}' WHERE id = ?;`, [id])
+  }
+
+
+
+  // update value in my todos.json file 
   //finde todo index
   const index = todos.findIndex((todo) => todo.id == id)
   if (index === -1) {
@@ -51,6 +66,9 @@ export async function PUT(request, { params }) {
     return Response.json({error: "id changing is not allow"}, {status: 403})
   }
 
+
+  await db.execute(`UPDATE todos_data SET text = '${todo.text}', completed = ${todo.completed ? 1 : 0}  WHERE id = ?;`, [id])
+
   //finde todo index
   const index = todos.findIndex((todo) => todo.id == id)
   if (index === -1) {
@@ -66,6 +84,8 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(_, {params}) {
   const {id} = await params
+
+  await db.execute(`DELETE FROM todos_data WHERE id = ?;`, [id])
 
   const index = todos.findIndex((todo) => todo.id == id)
 
